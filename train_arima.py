@@ -5,7 +5,7 @@ import pickle
 
 # Load data from local folder
 file_path = 'data/TLKM.JK.csv'  
-data = pd.read_csv(file_path)
+data = pd.read_csv(D:\stoct_prediction\data\TLKM.JK.csv)
 
 # Drop unnecessary columns
 data = data.drop(['Open', 'Low', 'Close', 'Adj Close', 'Volume'], axis='columns')
