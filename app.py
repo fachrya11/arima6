@@ -6,13 +6,18 @@ import pickle
 from datetime import datetime, timedelta
 
 # Load the trained ARIMA model
-with open('model/arima_model.pkl', 'rb') as file:
-    model_ARIMA = pickle.load(file)
+try:
+    with open('model/arima_model.pkl', 'rb') as file:
+        model_ARIMA = pickle.load(file)
+    st.success('Model ARIMA berhasil dimuat')
+except FileNotFoundError:
+    st.error('File model tidak ditemukan. Pastikan path file benar.')
+    st.stop()
 
 st.title('Data Historis Saham PT. Telkom')
 
-start_date = st.date_input('Star Date', value=None)
-end_date = st.date_input('End Date', value=None)
+start_date = st.date_input('Start Date')
+end_date = st.date_input('End Date')
 
 def predict(start_date, end_date):
     try:
@@ -42,6 +47,8 @@ def predict(start_date, end_date):
 
 if st.button('Prediksi'):
     if start_date and end_date:
+        st.write(f'Start Date: {start_date}')
+        st.write(f'End Date: {end_date}')
         results = predict(start_date, end_date)
         if 'error' in results:
             st.write('Terjadi kesalahan:', results['error'])
