@@ -11,8 +11,8 @@ with open('model/arima_model.pkl', 'rb') as file:
 
 st.title('Data Historis Saham PT. Telkom')
 
-start_date = st.date_input('Tanggal Mulai', value=None)
-end_date = st.date_input('Tanggal Akhir', value=None)
+start_date = st.date_input('Star Date', value=None)
+end_date = st.date_input('End Date', value=None)
 
 def predict(start_date, end_date):
     try:
