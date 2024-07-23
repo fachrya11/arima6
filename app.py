@@ -1,6 +1,5 @@
 import pandas as pd
 import streamlit as st
-import requests
 import numpy as np
 import pickle
 from datetime import datetime, timedelta
@@ -25,24 +24,17 @@ def predict(start_date, end_date):
         date_range = pd.date_range(start=start_date, end=end_date, freq='D')
         num_dates = len(date_range)
 
-        # Use the ARIMA model to predict the stock prices
-        start_index = len(model_ARIMA.fittedvalues)
-        end_index = start_index + num_dates - 1
-        predictions_diff = model_ARIMA.predict(start=start_index, end=end_index)
+        # Use the ARIMA model to forecast the stock prices
+        forecast = model_ARIMA.forecast(steps=num_dates)
         
-        # Cumulative sum to get the actual prediction
-        predictions_diff_cumsum = predictions_diff.cumsum()
-        last_value = model_ARIMA.fittedvalues[-1]
-        predictions = last_value + predictions_diff_cumsum
-
-        # Ensure predictions list length matches date range length
-        if len(predictions) != num_dates:
-            raise ValueError("Length of predictions does not match length of date range.")
+        # Ensure forecast list length matches date range length
+        if len(forecast) != num_dates:
+            raise ValueError("Length of forecast does not match length of date range.")
 
         # Prepare the results
         results = {
             'date': date_range.strftime('%Y-%m-%d').tolist(),
-            'predictions': predictions.tolist()
+            'predictions': forecast.tolist()
         }
         
         return results
