@@ -25,7 +25,8 @@ def predict(start_date, end_date):
         num_dates = len(date_range)
 
         # Use the ARIMA model to forecast the stock prices
-        forecast = model_ARIMA.forecast(steps=num_dates)
+        forecast_result = model_ARIMA.get_forecast(steps=num_dates)
+        forecast = forecast_result.predicted_mean
         
         # Ensure forecast list length matches date range length
         if len(forecast) != num_dates:
