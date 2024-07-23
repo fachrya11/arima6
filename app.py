@@ -26,7 +26,11 @@ def predict(start_date, end_date):
         num_dates = len(date_range)
 
         # Use the ARIMA model to predict the stock prices
-        predictions_diff = model_ARIMA.predict(start=len(model_ARIMA.fittedvalues), end=len(model_ARIMA.fittedvalues) + num_dates - 1)
+        start_index = len(model_ARIMA.fittedvalues)
+        end_index = start_index + num_dates - 1
+        predictions_diff = model_ARIMA.predict(start=start_index, end=end_index)
+        
+        # Cumulative sum to get the actual prediction
         predictions_diff_cumsum = predictions_diff.cumsum()
         last_value = model_ARIMA.fittedvalues[-1]
         predictions = last_value + predictions_diff_cumsum
